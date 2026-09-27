@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta chشarset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pattern, Culture & Expression | Saudi Heritage Motifs</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cairo & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        heritageGreen: '#1B4D3E',
+                        heritageBurgundy: '#7A1C1C',
+                        heritageOchre: '#D4AF37',
+                        heritageCream: '#FDFBF7',
+                        heritageDark: '#2C2A29',
+                        heritageBlue: '#1E3A8A'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Cairo', 'sans-serif'],
+                        arabic: ['Cairo', 'Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', 'Cairo', sans-serif;
+            background-color: #FDFBF7;
+            color: #2C2A29;
+        }
+        .rtl-support {
+            direction: rtl;
+        }
+        .ltr-support {
+            direction: ltr;
+        }
+        canvas {
+            touch-action: none;
+        }
+    </style>
+</head>
+<body class="bg-heritageCream min-h-screen flex flex-col selection:bg-heritageOchre selection:text-white">
+
+    <!-- Header Navbar -->
+    <header class="bg-heritageGreen text-heritageCream shadow-md border-b-4 border-heritageOchre sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <div class="w-10 h-10 rounded-full bg-heritageOchre flex items-center justify-center font-bold text-heritageBurgundy text-xl shadow">
+                    ✨
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-black tracking-tight" id="main-title">Pattern, Culture & Expression</h1>
+                    <p class="text-xs text-heritageOchre font-semibold" id="sub-title">Saudi Heritage Motifs | التراث والثقافة البصرية السعودية</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <!-- Language Toggle Button -->
+                <button id="lang-btn" onclick="toggleLanguage()" class="bg-heritageBurgundy hover:bg-opacity-90 text-white px-4 py-2 rounded-xl text-sm font-bold shadow transition flex items-center gap-2 border border-heritageOchre">
+                    🌐 <span id="lang-label">العربية</span>
+                </button>
+                <!-- Timer Widget -->
+                <div class="bg-heritageDark/55 text-heritageOchre px-3 py-1.5 rounded-xl text-xs font-bold border border-heritageOchre/40 flex items-center gap-1.5">
+                    ⏱️ <span id="timer-display">15:00</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Left Column: Controls & Steps (Col 1 to 5) -->
+        <div class="lg:col-span-5 flex flex-col gap-6">
+
+            <!-- Step Navigation Tabs / Wizard Header -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-heritageGreen/10">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-xs font-bold uppercase tracking-wider text-heritageGreen bg-heritageGreen/10 px-2.5 py-1 rounded-lg" id="step-indicator-label">Step 1 of 5</span>
+                    <div class="flex gap-1.5">
+                        <button onclick="switchExperiment('exp1')" id="tab-exp1" class="px-3 py-1 rounded-lg text-xs font-bold bg-heritageGreen text-white transition shadow-sm">Experiment 1</button>
+                        <button onclick="switchExperiment('exp2')" id="tab-exp2" class="px-3 py-1 rounded-lg text-xs font-bold bg-gray-200 text-gray-700 transition">Experiment 2</button>
+                    </div>
+                </div>
+                <h2 class="text-lg font-black text-heritageGreen" id="current-step-title">1. Choose Your Heritage Motif</h2>
+                <p class="text-xs text-gray-600 mt-1" id="current-step-desc">Select a simple geometric shape inspired by traditional Saudi art.</p>
+            </div>
+
+            <!-- Toolbox Card -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-heritageGreen/10 flex flex-col gap-5">
+                
+                <!-- Motif Selector -->
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-heritageDark mb-2" id="label-motif-picker">1. Select Motif / اختر الوحدة الزخرفية</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button onclick="selectMotif('diamond')" id="btn-motif-diamond" class="motif-btn p-3 rounded-xl border-2 border-heritageGreen bg-heritageGreen/5 flex flex-col items-center justify-center gap-2 hover:bg-heritageGreen/10 transition">
+                            <svg class="w-10 h-10 text-heritageGreen" viewBox="0 0 100 100"><polygon points="50,10 90,50 50,90 10,50" fill="none" stroke="currentColor" stroke-width="8"/></svg>
+                            <span class="text-xs font-bold text-heritageDark" id="txt-diamond">Diamond / معين</span>
+                        </button>
+                        <button onclick="selectMotif('triangle')" id="btn-motif-triangle" class="motif-btn p-3 rounded-xl border-2 border-gray-200 bg-gray-50 flex flex-col items-center justify-center gap-2 hover:bg-gray-100 transition">
+                            <svg class="w-10 h-10 text-heritageBurgundy" viewBox="0 0 100 100"><polygon points="50,15 90,85 10,85" fill="none" stroke="currentColor" stroke-width="8"/></svg>
+                            <span class="text-xs font-bold text-heritageDark" id="txt-triangle">Triangle / مثلث</span>
+                        </button>
+                        <button onclick="selectMotif('star')" id="btn-motif-star" class="motif-btn p-3 rounded-xl border-2 border-gray-200 bg-gray-50 flex flex-col items-center justify-center gap-2 hover:bg-gray-100 transition">
+                            <svg class="w-10 h-10 text-heritageOchre" viewBox="0 0 100 100"><path d="M50,10 L61,38 L90,38 L67,55 L76,83 L50,66 L24,83 L33,55 L10,38 L39,38 Z" fill="none" stroke="currentColor" stroke-width="6"/></svg>
+                            <span class="text-xs font-bold text-heritageDark" id="txt-star">Star / نجمة</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Color Palette -->
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-heritageDark mb-2" id="label-color-picker">2. Pick Motif Color / لون الوحدة</label>
+                    <div class="flex flex-wrap gap-2.5">
+                        <button onclick="setColor('#7A1C1C')" class="color-swatch w-9 h-9 rounded-xl bg-heritageBurgundy border-2 border-white shadow hover:scale-105 transition" title="Burgundy"></button>
+                        <button onclick="setColor('#D4AF37')" class="color-swatch w-9 h-9 rounded-xl bg-heritageOchre border-2 border-white shadow hover:scale-105 transition" title="Ochre Yellow"></button>
+                        <button onclick="setColor('#1B4D3E')" class="color-swatch w-9 h-9 rounded-xl bg-heritageGreen border-2 border-white shadow hover:scale-105 transition" title="Dark Green"></button>
+                        <button onclick="setColor('#2C2A29')" class="color-swatch w-9 h-9 rounded-xl bg-heritageDark border-2 border-white shadow hover:scale-105 transition" title="Black"></button>
+                        <button onclick="setColor('#1E3A8A')" class="color-swatch w-9 h-9 rounded-xl bg-heritageBlue border-2 border-white shadow hover:scale-105 transition" title="Blue"></button>
+                        <button onclick="setColor('#D97706')" class="color-swatch w-9 h-9 rounded-xl bg-amber-600 border-2 border-white shadow hover:scale-105 transition" title="Amber"></button>
+                    </div>
+                </div>
+
+                <!-- Canvas Actions (Duplicate, Rotate, Flip, Delete) -->
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-heritageDark mb-2" id="label-tools">3. Edit Selected Motif / أدوات التعديل</label>
+                    <div class="grid grid-cols-4 gap-2">
+                        <button onclick="duplicateSelected()" class="bg-heritageGreen/10 hover:bg-heritageGreen/20 text-heritageGreen p-2.5 rounded-xl text-xs font-bold flex flex-col items-center gap-1 transition" title="Duplicate">
+                            <span>➕</span> <span id="tool-dup">Duplicate</span>
+                        </button>
+                        <button onclick="rotateSelected()" class="bg-heritageGreen/10 hover:bg-heritageGreen/20 text-heritageGreen p-2.5 rounded-xl text-xs font-bold flex flex-col items-center gap-1 transition" title="Rotate">
+                            <span>🔄</span> <span id="tool-rot">Rotate</span>
+                        </button>
+                        <button onclick="resizeSelected(1.2)" class="bg-heritageGreen/10 hover:bg-heritageGreen/20 text-heritageGreen p-2.5 rounded-xl text-xs font-bold flex flex-col items-center gap-1 transition" title="Scale Up">
+                            <span>🔍</span> <span id="tool-sz">Resize</span>
+                        </button>
+                        <button onclick="deleteSelected()" class="bg-red-50 hover:bg-red-100 text-red-600 p-2.5 rounded-xl text-xs font-bold flex flex-col items-center gap-1 transition" title="Delete">
+                            <span>🗑️</span> <span id="tool-del">Delete</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Add to Canvas Quick Button -->
+                <button onclick="addNewMotifToCanvas()" class="w-full bg-heritageGreen hover:bg-opacity-90 text-heritageCream font-bold py-3 px-4 rounded-xl shadow transition text-sm flex items-center justify-center gap-2">
+                    ✨ <span id="btn-add-motif">Add Motif to Canvas / إضافة وحدة للوحة</span>
+                </button>
+            </div>
+
+            <!-- Student Checklist Card -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-heritageGreen/10">
+                <h3 class="text-sm font-black text-heritageGreen mb-3 flex items-center gap-2">
+                    📋 <span id="checklist-title">Checklist / قائمة التحقق للتقييم</span>
+                </h3>
+                <div class="space-y-2.5 text-xs font-medium text-gray-700">
+                    <label class="flex items-center gap-2.5 cursor-pointer hover:text-heritageGreen">
+                        <input type="checkbox" id="chk-1" onchange="updateChecklist()" class="w-4 h-4 text-heritageGreen rounded border-gray-300 focus:ring-heritageGreen">
+                        <span id="chk-text-1">I used one clear motif. / استخدمت وحدة زخرفية واضحة.</span>
+                    </label>
+                    <label class="flex items-center gap-2.5 cursor-pointer hover:text-heritageGreen">
+                        <input type="checkbox" id="chk-2" onchange="updateChecklist()" class="w-4 h-4 text-heritageGreen rounded border-gray-300 focus:ring-heritageGreen">
+                        <span id="chk-text-2">I repeated it at least four times. / كررته أربع مرات على الأقل.</span>
+                    </label>
+                    <label class="flex items-center gap-2.5 cursor-pointer hover:text-heritageGreen">
+                        <input type="checkbox" id="chk-3" onchange="updateChecklist()" class="w-4 h-4 text-heritageGreen rounded border-gray-300 focus:ring-heritageGreen">
+                        <span id="chk-text-3">I used three heritage colors. / استخدمت ثلاثة ألوان تراثية.</span>
+                    </label>
+                    <label class="flex items-center gap-2.5 cursor-pointer hover:text-heritageGreen">
+                        <input type="checkbox" id="chk-4" onchange="updateChecklist()" class="w-4 h-4 text-heritageGreen rounded border-gray-300 focus:ring-heritageGreen">
+                        <span id="chk-text-4">My pattern is organized & rhythmic. / نمطي منظم وله إيقاع.</span>
+                    </label>
+                    <label class="flex items-center gap-2.5 cursor-pointer hover:text-heritageGreen">
+                        <input type="checkbox" id="chk-5" onchange="updateChecklist()" class="w-4 h-4 text-heritageGreen rounded border-gray-300 focus:ring-heritageGreen">
+                        <span id="chk-text-5">I created two experiments. / أنشأت تجربتين مختلفتين.</span>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column: Interactive Canvas & Reflection Form (Col 6 to 12) -->
+        <div class="lg:col-span-7 flex flex-col gap-6">
+
+            <!-- Canvas Workspace Card -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-heritageGreen/10 flex flex-col items-center">
+                <div class="w-full flex justify-between items-center mb-3">
+                    <span class="text-xs font-bold text-gray-500" id="canvas-hint">💡 Click & drag items on canvas to position them. Tap to select.</span>
+                    <button onclick="clearCanvas()" class="text-xs font-bold text-red-600 hover:underline bg-red-50 px-2.5 py-1 rounded-lg" id="btn-clear">Clear Canvas / مسح اللوحة</button>
+                </div>
+
+                <!-- HTML5 Canvas Container -->
+                <div class="relative w-full aspect-[4/3] bg-heritageCream border-2 border-dashed border-heritageGreen/30 rounded-2xl overflow-hidden shadow-inner flex items-center justify-center">
+                    <canvas id="patternCanvas" class="w-full h-full cursor-crosshair"></canvas>
+                </div>
+
+                <!-- Canvas Quick Tools / Footer info -->
+                <div class="w-full flex flex-wrap justify-between items-center mt-3 text-xs text-gray-600">
+                    <span id="motif-count-badge">Motifs on canvas: <strong id="count-num">0</strong></span>
+                    <span class="text-heritageGreen font-bold" id="active-exp-badge">Active Experiment: Experiment 1</span>
+                </div>
+            </div>
+
+            <!-- Reflection & Finalize Card -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-heritageGreen/10 flex flex-col gap-4">
+                <h3 class="text-sm font-black text-heritageGreen flex items-center gap-2">
+                    ✍️ <span id="reflection-title">Student Reflection & Details / تأملات الطالبة والبيانات</span>
+                </h3>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-heritageDark mb-1" id="label-name">Student Name / اسم الطالبة</label>
+                        <input type="text" id="student-name" placeholder="e.g. Fatima Al-Otaibi" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs focus:ring-2 focus:ring-heritageGreen focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-heritageDark mb-1" id="label-class">Class / الفصل</label>
+                        <input type="text" id="student-class" placeholder="e.g. Grade 8 - Section A" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs focus:ring-2 focus:ring-heritageGreen focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-bold text-heritageDark mb-1" id="label-starter-1">My motif is inspired by... / استُلهمت وحدتي الزخرفية من...</label>
+                        <input type="text" id="reflection-inspiration" placeholder="e.g. Najdi door carvings and Sadu woven textiles" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs focus:ring-2 focus:ring-heritageGreen focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-heritageDark mb-1" id="label-starter-2">I used ______ colors / استخدمت ألوان ______</label>
+                        <input type="text" id="reflection-colors" placeholder="e.g. burgundy, ochre yellow, and cream" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-xs focus:ring-2 focus:ring-heritageGreen focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Download PNG Button -->
+                <button onclick="downloadPNG()" class="w-full bg-heritageBurgundy hover:bg-opacity-90 text-heritageCream font-bold py-3 px-4 rounded-xl shadow transition text-sm flex items-center justify-center gap-2 mt-2">
+                    📥 <span id="btn-download">Download Final Design (PNG) / تحميل التصميم النهائي</span>
+                </button>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // State Management
+        let currentLang = 'en';
+        let activeExperiment = 'exp1';
+        let selectedMotifType = 'diamond';
+        let currentColor = '#7A1C1C'; // Burgundy default
+        
+        // Experiments Data
+        let experiments = {
+            exp1: { motifs: [] },
+            exp2: { motifs: [] }
+        };
+
+        let selectedMotifIndex = null;
+        let isDragging = false;
+        let dragOffsetX = 0;
+        let dragOffsetY = 0;
+
+        // Bilingual Dictionary
+        const translations = {
+            en: {
+                mainTitle: "Pattern, Culture & Expression",
+                subTitle: "Saudi Heritage Motifs | التراث والثقافة البصرية السعودية",
+                langLabel: "العربية",
+                stepInd: "Step 1 of 5",
+                stepTitle: "1. Choose Your Heritage Motif",
+                stepDesc: "Select a simple geometric shape inspired by traditional Saudi art.",
+                motifPicker: "1. Select Motif / اختر الوحدة الزخرفية",
+                colorPicker: "2. Pick Motif Color / لون الوحدة",
+                toolsLabel: "3. Edit Selected Motif / أدوات التعديل",
+                toolDup: "Duplicate",
+                toolRot: "Rotate",
+                toolSz: "Resize",
+                toolDel: "Delete",
+                btnAddMotif: "Add Motif to Canvas / إضافة وحدة للوحة",
+                checklistTitle: "Checklist / قائمة التحقق للتقييم",
+                chk1: "I used one clear motif.",
+                chk2: "I repeated it at least four times.",
+                chk3: "I used three heritage colors.",
+                chk4: "My pattern is organized & rhythmic.",
+                chk5: "I created two experiments.",
+                canvasHint: "💡 Click & drag items on canvas to position them. Tap to select.",
+                btnClear: "Clear Canvas / مسح اللوحة",
+                motifCount: "Motifs on canvas:",
+                activeExp: "Active Experiment: ",
+                reflectionTitle: "Student Reflection & Details / تأملات الطالبة والبيانات",
+                labelName: "Student Name / اسم الطالبة",
+                labelClass: "Class / الفصل",
+                labelSt1: "My motif is inspired by... / استُلهمت وحدتي الزخرفية من...",
+                labelSt2: "I used colors... / استخدمت ألوان...",
+                btnDownload: "Download Final Design (PNG) / تحميل التصميم النهائي",
+                exp1Btn: "Experiment 1",
+                exp2Btn: "Experiment 2",
+                diamond: "Diamond / معين",
+                triangle: "Triangle / مثلث",
+                star: "Star / نجمة"
+            },
+            ar: {
+                mainTitle: "النمط، الثقافة والتعبير",
+                subTitle: "زخارف التراث السعودي | Saudi Heritage Motifs",
+                langLabel: "English",
+                stepInd: "الخطوة 1 من 5",
+                stepTitle: "1. اختاري وحدتك الزخرفية التراثية",
+                stepDesc: "اختاري شكلاً هندسياً بسيطاً مستوحى من الفنون السعودية التقليدية.",
+                motifPicker: "1. اختاري الوحدة الزخرفية",
+                colorPicker: "2. لون الوحدة الزخرفية",
+                toolsLabel: "3. أدوات التعديل للوحدة المحددة",
+                toolDup: "تكرار",
+                toolRot: "تدوير",
+                toolSz: "تكبير",
+                toolDel: "حذف",
+                btnAddMotif: "إضافة وحدة جديدة للوحة",
+                checklistTitle: "قائمة التحقق للتقييم الذاتي",
+                chk1: "استخدمت وحدة زخرفية واضحة.",
+                chk2: "كررته أربع مرات على الأقل.",
+                chk3: "استخدمت ثلاثة ألوان تراثية.",
+                chk4: "نمطي منظم وله إيقاع بصري.",
+                chk5: "أنشأت تجربتين مختلفتين.",
+                canvasHint: "💡 انضطي واسحبي العناصر على اللوحة لترتيبها. اضغطي لتحديد عنصر.",
+                btnClear: "مسح اللوحة بالكامل",
+                motifCount: "الوحدات على اللوحة:",
+                activeExp: "التجربة النشطة: ",
+                reflectionTitle: "تأملات الطالبة والبيانات",
+                labelName: "اسم الطالبة",
+                labelClass: "الفصل",
+                labelSt1: "استُلهمت وحدتي الزخرفية من...",
+                labelSt2: "استخدمت ألوان...",
+                btnDownload: "تحميل التصميم النهائي (PNG)",
+                exp1Btn: "التجربة 1",
+                exp2Btn: "التجربة 2",
+                diamond: "معين",
+                triangle: "مثلث",
+                star: "نجمة هندسية"
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            const body = document.body;
+            if (currentLang === 'ar') {
+                body.setAttribute('dir', 'rtl');
+                body.classList.remove('ltr-support');
+                body.classList.add('rtl-support');
+            } else {
+                body.setAttribute('dir', 'ltr');
+                body.classList.remove('rtl-support');
+                body.classList.add('ltr-support');
+            }
+            updateTextContent();
+        }
+
+        function updateTextContent() {
+            const t = translations[currentLang];
+            document.getElementById('main-title').innerText = t.mainTitle;
+            document.getElementById('sub-title').innerText = t.subTitle;
+            document.getElementById('lang-label').innerText = t.langLabel;
+            document.getElementById('current-step-title').innerText = t.stepTitle;
+            document.getElementById('current-step-desc').innerText = t.stepDesc;
+            document.getElementById('label-motif-picker').innerText = t.motifPicker;
+            document.getElementById('label-color-picker').innerText = t.colorPicker;
+            document.getElementById('label-tools').innerText = t.toolsLabel;
+            document.getElementById('tool-dup').innerText = t.toolDup;
+            document.getElementById('tool-rot').innerText = t.toolRot;
+            document.getElementById('tool-sz').innerText = t.toolSz;
+            document.getElementById('tool-del').innerText = t.toolDel;
+            document.getElementById('btn-add-motif').innerText = t.btnAddMotif;
+            document.getElementById('checklist-title').innerText = t.checklistTitle;
+            document.getElementById('chk-text-1').innerText = t.chk1;
+            document.getElementById('chk-text-2').innerText = t.chk2;
+            document.getElementById('chk-text-3').innerText = t.chk3;
+            document.getElementById('chk-text-4').innerText = t.chk4;
+            document.getElementById('chk-text-5').innerText = t.chk5;
+            document.getElementById('canvas-hint').innerText = t.canvasHint;
+            document.getElementById('btn-clear').innerText = t.btnClear;
+            document.getElementById('reflection-title').innerText = t.reflectionTitle;
+            document.getElementById('label-name').innerText = t.labelName;
+            document.getElementById('label-class').innerText = t.labelClass;
+            document.getElementById('label-starter-1').innerText = t.labelSt1;
+            document.getElementById('label-starter-2').innerText = t.labelSt2;
+            document.getElementById('btn-download').innerText = t.btnDownload;
+            document.getElementById('tab-exp1').innerText = t.exp1Btn;
+            document.getElementById('tab-exp2').innerText = t.exp2Btn;
+            document.getElementById('txt-diamond').innerText = t.diamond;
+            document.getElementById('txt-triangle').innerText = t.triangle;
+            document.getElementById('txt-star').innerText = t.star;
+            updateActiveExpBadge();
+        }
+
+        // Timer countdown logic (15 minutes)
+        let timeLeft = 15 * 60;
+        setInterval(() => {
+            if (timeLeft > 0) {
+                timeLeft--;
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
+                document.getElementById('timer-display').innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            }
+        }, 1000);
+
+        // Canvas Setup
+        const canvas = document.getElementById('patternCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+            drawCanvas();
+        }
+        window.addEventListener('resize', resizeCanvas);
+        window.onload = () => {
+            resizeCanvas();
+            // Pre-populate with 4 initial motifs for Experiment 1 to help students immediately see rhythm & repetition
+            addInitialMotifs();
+        };
+
+        function addInitialMotifs() {
+            const cx = 150, cy = 120;
+            experiments.exp1.motifs = [
+                { type: 'diamond', color: '#7A1C1C', x: 120, y: 120, size: 70, rotation: 0 },
+                { type: 'diamond', color: '#D4AF37', x: 260, y: 120, size: 70, rotation: 0 },
+                { type: 'diamond', color: '#1B4D3E', x: 120, y: 260, size: 70, rotation: 0 },
+                { type: 'diamond', color: '#7A1C1C', x: 260, y: 260, size: 70, rotation: 0 }
+            ];
+            updateMotifCount();
+            drawCanvas();
+        }
+
+        function selectMotif(type) {
+            selectedMotifType = type;
+            document.querySelectorAll('.motif-btn').forEach(btn => {
+                btn.classList.remove('border-heritageGreen', 'bg-heritageGreen/5');
+                btn.classList.add('border-gray-200', 'bg-gray-50');
+            });
+            const activeBtn = document.getElementById(`btn-motif-${type}`);
+            activeBtn.classList.remove('border-gray-200', 'bg-gray-50');
+            activeBtn.classList.add('border-heritageGreen', 'bg-heritageGreen/5');
+        }
+
+        function setColor(color) {
+            currentColor = color;
+            if (selectedMotifIndex !== null) {
+                experiments[activeExperiment].motifs[selectedMotifIndex].color = color;
+                drawCanvas();
+            }
+        }
+
+        function addNewMotifToCanvas() {
+            const list = experiments[activeExperiment].motifs;
+            const newObj = {
+                type: selectedMotifType,
+                color: currentColor,
+                x: canvas.width / 2 + (Math.random() * 60 - 30),
+                y: canvas.height / 2 + (Math.random() * 60 - 30),
+                size: 75,
+                rotation: 0
+            };
+            list.push(newObj);
+            selectedMotifIndex = list.length - 1;
+            updateMotifCount();
+            drawCanvas();
+        }
+
+        function duplicateSelected() {
+            const list = experiments[activeExperiment].motifs;
+            if (selectedMotifIndex !== null && list[selectedMotifIndex]) {
+                const item = list[selectedMotifIndex];
+                const clone = { ...item, x: item.x + 30, y: item.y + 30 };
+                list.push(clone);
+                selectedMotifIndex = list.length - 1;
+                updateMotifCount();
+                drawCanvas();
+            } else if (list.length > 0) {
+                const item = list[0];
+                const clone = { ...item, x: item.x + 30, y: item.y + 30 };
+                list.push(clone);
+                selectedMotifIndex = list.length - 1;
+                updateMotifCount();
+                drawCanvas();
+            }
+        }
+
+        function rotateSelected() {
+            const list = experiments[activeExperiment].motifs;
+            if (selectedMotifIndex !== null && list[selectedMotifIndex]) {
+                list[selectedMotifIndex].rotation += Math.PI / 4;
+                drawCanvas();
+            }
+        }
+
+        function resizeSelected(factor) {
+            const list = experiments[activeExperiment].motifs;
+            if (selectedMotifIndex !== null && list[selectedMotifIndex]) {
+                list[selectedMotifIndex].size = Math.max(30, Math.min(200, list[selectedMotifIndex].size * factor));
+                drawCanvas();
+            }
+        }
+
+        function deleteSelected() {
+            const list = experiments[activeExperiment].motifs;
+            if (selectedMotifIndex !== null && list[selectedMotifIndex]) {
+                list.splice(selectedMotifIndex, 1);
+                selectedMotifIndex = null;
+                updateMotifCount();
+                drawCanvas();
+            }
+        }
+
+        function clearCanvas() {
+            experiments[activeExperiment].motifs = [];
+            selectedMotifIndex = null;
+            updateMotifCount();
+            drawCanvas();
+        }
+
+        function switchExperiment(exp) {
+            activeExperiment = exp;
+            selectedMotifIndex = null;
+            if (exp === 'exp1') {
+                document.getElementById('tab-exp1').className = "px-3 py-1 rounded-lg text-xs font-bold bg-heritageGreen text-white transition shadow-sm";
+                document.getElementById('tab-exp2').className = "px-3 py-1 rounded-lg text-xs font-bold bg-gray-200 text-gray-700 transition";
+            } else {
+                document.getElementById('tab-exp2').className = "px-3 py-1 rounded-lg text-xs font-bold bg-heritageGreen text-white transition shadow-sm";
+                document.getElementById('tab-exp1').className = "px-3 py-1 rounded-lg text-xs font-bold bg-gray-200 text-gray-700 transition";
+            }
+            updateActiveExpBadge();
+            updateMotifCount();
+            drawCanvas();
+        }
+
+        function updateActiveExpBadge() {
+            const t = translations[currentLang];
+            const name = activeExperiment === 'exp1' ? (currentLang === 'en' ? 'Experiment 1' : 'التجربة 1') : (currentLang === 'en' ? 'Experiment 2' : 'التجربة 2');
+            document.getElementById('active-exp-badge').innerText = t.activeExp + name;
+        }
+
+        function updateMotifCount() {
+            const count = experiments[activeExperiment].motifs.length;
+            document.getElementById('count-num').innerText = count;
+            if (count >= 4) {
+                document.getElementById('chk-2').checked = true;
+            }
+        }
+
+        function updateChecklist() {
+            // Manual or automated check integration
+        }
+
+        // Draw Motifs onto Canvas
+        function drawCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw Subtle Grid background for traditional feel
+            ctx.strokeStyle = 'rgba(27, 77, 62, 0.05)';
+            ctx.lineWidth = 1;
+            const gridSize = 40;
+            for (let x = 0; x < canvas.width; x += gridSize) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += gridSize) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+            }
+
+            const list = experiments[activeExperiment].motifs;
+            list.forEach((item, index) => {
+                ctx.save();
+                ctx.translate(item.x, item.y);
+                ctx.rotate(item.rotation);
+
+                const s = item.size;
+                ctx.fillStyle = item.color;
+                ctx.strokeStyle = '#2C2A29';
+                ctx.lineWidth = 2;
+
+                if (item.type === 'diamond') {
+                    ctx.beginPath();
+                    ctx.moveTo(0, -s/2);
+                    ctx.lineTo(s/2, 0);
+                    ctx.lineTo(0, s/2);
+                    ctx.lineTo(-s/2, 0);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Inner geometric detail
+                    ctx.beginPath();
+                    ctx.moveTo(0, -s/4);
+                    ctx.lineTo(s/4, 0);
+                    ctx.lineTo(0, s/4);
+                    ctx.lineTo(-s/4, 0);
+                    ctx.closePath();
+                    ctx.strokeStyle = '#FDFBF7';
+                    ctx.stroke();
+                } else if (item.type === 'triangle') {
+                    ctx.beginPath();
+                    ctx.moveTo(0, -s/2);
+                    ctx.lineTo(s/2, s/2);
+                    ctx.lineTo(-s/2, s/2);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                } else if (item.type === 'star') {
+                    // 8-point geometric star
+                    ctx.beginPath();
+                    for (let i = 0; i < 8; i++) {
+                        let angle = (i * Math.PI) / 4;
+                        let rOuter = s/2;
+                        let rInner = s/4;
+                        let x1 = Math.cos(angle) * rOuter;
+                        let y1 = Math.sin(angle) * rOuter;
+                        let angleMid = angle + Math.PI / 8;
+                        let x2 = Math.cos(angleMid) * rInner;
+                        let y2 = Math.sin(angleMid) * rInner;
+                        if (i === 0) ctx.moveTo(x1, y1);
+                        else ctx.lineTo(x1, y1);
+                        ctx.lineTo(x2, y2);
+                    }
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+                }
+
+                // Highlight if selected
+                if (index === selectedMotifIndex) {
+                    ctx.strokeStyle = '#D4AF37';
+                    ctx.lineWidth = 3;
+                    ctx.setLineDash([4, 4]);
+                    ctx.strokeRect(-s/2 - 6, -s/2 - 6, s + 12, s + 12);
+                }
+
+                ctx.restore();
+            });
+        }
+
+        // Canvas Touch / Mouse Interaction for Dragging
+        let activePointerIndex = null;
+
+        canvas.addEventListener('pointerdown', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            const list = experiments[activeExperiment].motifs;
+            // Check in reverse order (top-most first)
+            selectedMotifIndex = null;
+            for (let i = list.length - 1; i >= 0; i--) {
+                const item = list[i];
+                const dist = Math.hypot(mouseX - item.x, mouseY - item.y);
+                if (dist < item.size / 2) {
+                    selectedMotifIndex = i;
+                    isDragging = true;
+                    dragOffsetX = mouseX - item.x;
+                    dragOffsetY = mouseY - item.y;
+                    break;
+                }
+            }
+            drawCanvas();
+        });
+
+        canvas.addEventListener('pointermove', (e) => {
+            if (!isDragging || selectedMotifIndex === null) return;
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            const item = experiments[activeExperiment].motifs[selectedMotifIndex];
+            item.x = mouseX - dragOffsetX;
+            item.y = mouseY - dragOffsetY;
+            drawCanvas();
+        });
+
+        canvas.addEventListener('pointerup', () => {
+            isDragging = false;
+        });
+
+        // Download PNG Function
+        function downloadPNG() {
+            // Create a high-res temporary export canvas
+            const exportCanvas = document.createElement('canvas');
+            exportCanvas.width = 1200;
+            exportCanvas.height = 900;
+            const eCtx = exportCanvas.getContext('2d');
+
+            // Background fill
+            eCtx.fillStyle = '#FDFBF7';
+            eCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+
+            // Draw header bar
+            eCtx.fillStyle = '#1B4D3E';
+            eCtx.fillRect(0, 0, exportCanvas.width, 100);
+
+            eCtx.fillStyle = '#D4AF37';
+            eCtx.font = 'bold 36px Inter, Cairo, sans-serif';
+            eCtx.fillText('Pattern, Culture & Expression | زخارف التراث السعودي', 40, 60);
+
+            // Scale canvas motifs onto export canvas
+            const scaleX = exportCanvas.width / canvas.width;
+            const scaleY = (exportCanvas.height - 250) / canvas.height;
+            const scale = Math.min(scaleX, scaleY);
+
+            eCtx.save();
+            eCtx.translate(100, 150);
+            eCtx.scale(scale, scale);
+
+            // Redraw motifs
+            const list = experiments[activeExperiment].motifs;
+            list.forEach((item) => {
+                eCtx.save();
+                eCtx.translate(item.x, item.y);
+                eCtx.rotate(item.rotation);
+                const s = item.size;
+                eCtx.fillStyle = item.color;
+                eCtx.strokeStyle = '#2C2A29';
+                eCtx.lineWidth = 2;
+
+                if (item.type === 'diamond') {
+                    eCtx.beginPath();
+                    eCtx.moveTo(0, -s/2);
+                    eCtx.lineTo(s/2, 0);
+                    eCtx.lineTo(0, s/2);
+                    eCtx.lineTo(-s/2, 0);
+                    eCtx.closePath();
+                    eCtx.fill();
+                    eCtx.stroke();
+                } else if (item.type === 'triangle') {
+                    eCtx.beginPath();
+                    eCtx.moveTo(0, -s/2);
+                    eCtx.lineTo(s/2, s/2);
+                    eCtx.lineTo(-s/2, s/2);
+                    eCtx.closePath();
+                    eCtx.fill();
+                    eCtx.stroke();
+                } else if (item.type === 'star') {
+                    eCtx.beginPath();
+                    for (let i = 0; i < 8; i++) {
+                        let angle = (i * Math.PI) / 4;
+                        let rOuter = s/2;
+                        let rInner = s/4;
+                        let x1 = Math.cos(angle) * rOuter;
+                        let y1 = Math.sin(angle) * rOuter;
+                        let angleMid = angle + Math.PI / 8;
+                        let x2 = Math.cos(angleMid) * rInner;
+                        let y2 = Math.sin(angleMid) * rInner;
+                        if (i === 0) eCtx.moveTo(x1, y1);
+                        else eCtx.lineTo(x1, y1);
+                        eCtx.lineTo(x2, y2);
+                    }
+                    eCtx.closePath();
+                    eCtx.fill();
+                    eCtx.stroke();
+                }
+                eCtx.restore();
+            });
+            eCtx.restore();
+
+            // Draw Student Info Footer Box
+            eCtx.fillStyle = '#FFFFFF';
+            eCtx.fillRect(40, 750, 1120, 120);
+            eCtx.strokeStyle = '#1B4D3E';
+            eCtx.lineWidth = 2;
+            eCtx.strokeRect(40, 750, 1120, 120);
+
+            const name = document.getElementById('student-name').value || 'Student Name';
+            const cls = document.getElementById('student-class').value || 'Grade 8';
+            const insp = document.getElementById('reflection-inspiration').value || 'Najdi architecture & Sadu weaving';
+            const cols = document.getElementById('reflection-colors').value || 'Burgundy, Ochre, and Green';
+
+            eCtx.fillStyle = '#2C2A29';
+            eCtx.font = 'bold 22px Inter, Cairo, sans-serif';
+            eCtx.fillText(`Name: ${name}  |  Class: ${cls}`, 60, 790);
+            eCtx.font = '18px Inter, Cairo, sans-serif';
+            eCtx.fillText(`My motif is inspired by: ${insp}`, 60, 825);
+            eCtx.fillText(`Colors used: ${cols}`, 60, 855);
+
+            // Trigger Download
+            const link = document.createElement('a');
+            link.download = `Saudi_Heritage_Pattern_${name.replace(/\s+/g, '_') || 'Design'}.png`;
+            link.href = exportCanvas.toDataURL('image/png');
+            link.click();
+        }
+    </script>
+</body>
+</html>
